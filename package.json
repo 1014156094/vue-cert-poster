@@ -1,14 +1,32 @@
 {
-  "name": "my-project",
-  "version": "0.1.0",
-  "private": true,
+  "name": "vue-cert-poster",
+  "version": "1.1.0",
+  "description": "Vue 生成证书海报组件",
+  "license": "MIT",
+  "author": "liripeng <1014156094@qq.com>",
+  "private": false,
+  "main": "lib/vue-cert-poster.umd.min.js",
+  "keywords": [
+    "liripeng",
+    "vue component",
+    "vue-cert-poster",
+    "cert-poster"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name vue-cert-poster --dest lib packages/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1014156094/vue-cert-poster.git"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "core-js": "^3.6.4",
+    "dayjs": "^1.8.24",
+    "html2canvas": "^1.0.0-rc.5",
     "vue": "^2.6.11"
   },
   "devDependencies": {

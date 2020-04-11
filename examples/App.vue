@@ -1,45 +1,5 @@
-<h3 align="center" style="margin: 30px 0 35px;">Vue 生成证书海报组件</h3>
-
-<p align="center">
-    <img src="https://img.shields.io/npm/v/vue-cert-poster.svg" alt="npm version" />
-    <img src="https://img.shields.io/bundlephobia/minzip/vue-cert-poster.svg" alt="Build Status" />
-    <img src="https://img.shields.io/github/license/1014156094/vue-cert-poster" alt="Build Status" />
-    <img src="https://img.shields.io/github/forks/1014156094/vue-cert-poster" alt="Build Status" />
-    <img src="https://img.shields.io/github/issues/1014156094/vue-cert-poster" alt="Build Status" />
-    <img src="https://img.shields.io/github/stars/1014156094/vue-cert-poster" alt="Build Status" />
-</p>
-
----
-
-## 最终效果
-![image](https://github.com/1014156094/vue-cert-poster/blob/master/public/result.png?raw=true)
-
-
-## 说明
-- 从争流科技后台和 H5 业务中抽离出来的组件，可能不适用您的业务
-- 原生 CSS，支持 Less、Scss 等预编译语言
-
-## 使用
-1. 安装
-
-``` bash
-npm i -S vue-cert-poster
-```
-
-2. 引入组件
-
-``` bash
-import CertPoster from 'vue-cert-poster'
-import 'vue-cert-poster/lib/vue-cert-poster.css'
-
-Vue.use(CertPoster)
-```
-
-3. 调用示例
-
-``` bash
 <template>
-  <div>
+  <div id="app">
     <button @click="onCreate">
       生成证书海报
     </button>
@@ -53,6 +13,8 @@ Vue.use(CertPoster)
 
 <script>
 export default {
+  name: 'App',
+  
   data() {
     return {
       posterUrl: '',
@@ -90,10 +52,17 @@ export default {
   methods: {
     onCreate() {
       this.$certPoster({
-        certStyleSetting: this.currentCertDetail.cert_style_setting,
+        certTitle: this.currentCertDetail.cert_style_setting.title,
+        certBackground: this.currentCertDetail.cert_style_setting.background_url,
+        certStamp: this.currentCertDetail.cert_style_setting.stamp_url,
+        certGreet: this.currentCertDetail.cert_style_setting.greeting,
+        certContent: this.currentCertDetail.cert_style_setting.content,
+        certSignature: this.currentCertDetail.cert_style_setting.signature,
         certAwardName: this.currentCertDetail.cert_award_name,
-        certNumber: this.currentCertDetail.number,
-        enrollName: this.currentCertDetail.enroll_name
+        certNumber: this.currentCertDetail.cert_style_setting.number,
+        playerNumber: this.currentCertDetail.number,
+        playerName: this.currentCertDetail.enroll_name,
+        matchName: this.currentCertDetail.match_name
       }).then(posterUrl => {
         this.posterUrl = posterUrl
       })
@@ -101,21 +70,14 @@ export default {
   }
 }
 </script>
-```
 
-## Prop
-| 参数 | 说明 | 类型 | 默认值 |
-| - | - | - | - |
-| cert-style-setting | 证书样式设置 | `Object` | - |
-
-## Event
-| 事件 | 说明 | 回调 |
-| - | - | - |
-| `success` | 生成证书海报成功后触发 | `posterUrl` |
-| `fail` | 生成证书海报失败后触发 | - |
-
-## 许可证
-`MIT`
-
-## 最后
-使用过程中发现任何问题都可以提 `Issue`，也非常欢迎提 `PR`
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
