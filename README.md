@@ -106,13 +106,13 @@ export default {
 ## Prop
 | 参数 | 说明 | 类型 | 默认值 |
 | - | - | - | - |
-| certTitle | 证书标题 | `Object` | - |
-| certBackground | 证书背景 | `Object` | - |
-| certStamp | 证书盖章 | `Object` | - |
-| certGreet | 证书问候语 | `Object` | - |
-| certContent | 证书内容 | `Object` | - |
-| certSignature | 证书署名 | `Object` | - |
-| certNumber | 证书编号 | `Object` | - |
+| certTitle | 证书标题 | `String` | '' |
+| certBackground | 证书背景 | `String` | '' |
+| certStamp | 证书盖章 | `String` | '' |
+| certGreet | 证书问候语 | `String` | '' |
+| certContent | 证书内容 | `String` | '' |
+| certSignature | 证书署名 | `String` | '' |
+| certNumber | 证书编号 | `String` | '' |
 
 ## 许可证
 `MIT`
