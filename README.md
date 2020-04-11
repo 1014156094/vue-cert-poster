@@ -39,7 +39,7 @@ Vue.use(CertPoster)
 
 ``` bash
 <template>
-  <div>
+  <div id="app">
     <button @click="onCreate">
       生成证书海报
     </button>
@@ -53,6 +53,8 @@ Vue.use(CertPoster)
 
 <script>
 export default {
+  name: 'App',
+  
   data() {
     return {
       posterUrl: '',
@@ -90,10 +92,17 @@ export default {
   methods: {
     onCreate() {
       this.$certPoster({
-        certStyleSetting: this.currentCertDetail.cert_style_setting,
+        certTitle: this.currentCertDetail.cert_style_setting.title,
+        certBackground: this.currentCertDetail.cert_style_setting.background_url,
+        certStamp: this.currentCertDetail.cert_style_setting.stamp_url,
+        certGreet: this.currentCertDetail.cert_style_setting.greeting,
+        certContent: this.currentCertDetail.cert_style_setting.content,
+        certSignature: this.currentCertDetail.cert_style_setting.signature,
         certAwardName: this.currentCertDetail.cert_award_name,
-        certNumber: this.currentCertDetail.number,
-        enrollName: this.currentCertDetail.enroll_name
+        certNumber: this.currentCertDetail.cert_style_setting.number,
+        playerNumber: this.currentCertDetail.number,
+        playerName: this.currentCertDetail.enroll_name,
+        matchName: this.currentCertDetail.match_name
       }).then(posterUrl => {
         this.posterUrl = posterUrl
       })
