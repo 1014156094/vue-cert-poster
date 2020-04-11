@@ -106,13 +106,13 @@ export default {
 ## Prop
 | 参数 | 说明 | 类型 | 默认值 |
 | - | - | - | - |
-| cert-style-setting | 证书样式设置 | `Object` | - |
-
-## Event
-| 事件 | 说明 | 回调 |
-| - | - | - |
-| `success` | 生成证书海报成功后触发 | `posterUrl` |
-| `fail` | 生成证书海报失败后触发 | - |
+| certTitle | 证书标题 | `Object` | - |
+| certBackground | 证书背景 | `Object` | - |
+| certStamp | 证书盖章 | `Object` | - |
+| certGreet | 证书问候语 | `Object` | - |
+| certContent | 证书内容 | `Object` | - |
+| certSignature | 证书署名 | `Object` | - |
+| certNumber | 证书编号 | `Object` | - |
 
 ## 许可证
 `MIT`
