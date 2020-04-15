@@ -14,7 +14,10 @@
     <div class="cert-poster__title">
       {{ certTitle }}
     </div>
-    <div class="cert-poster__name">
+    <div
+      v-if="showCertGreet"
+      class="cert-poster__greet"
+    >
       {{ certGreet }}
     </div>
     <div
@@ -36,11 +39,10 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-import html2canvas from 'html2canvas'
+import html2canvas from "html2canvas";
 
 export default {
-  name: 'CertPoster',
+  name: "CertPoster",
 
   props: {
     value: {
@@ -51,165 +53,84 @@ export default {
     // 证书标题
     certTitle: {
       type: String,
-      default: ''
+      default: ""
     },
 
     // 证书背景
     certBackground: {
       type: String,
-      default: ''
+      default: ""
     },
 
     // 证书盖章
     certStamp: {
       type: String,
-      default: ''
+      default: ""
     },
 
     // 证书问候语
     certGreet: {
       type: String,
-      default: ''
+      default: ""
     },
 
     // 证书内容
     certContent: {
       type: String,
-      default: ''
+      default: ""
     },
 
     // 证书署名
     certSignature: {
       type: String,
-      default: ''
-    },
-
-    // 证书奖项名称
-    certAwardName: {
-      type: String,
-      default: ''
+      default: ""
     },
 
     // 证书编号
     certNumber: {
       type: String,
-      default: ''
+      default: ""
     },
 
-    // 选手编号
-    playerNumber: {
-      type: Number,
-      default: 0
-    },
-
-    // 选手姓名
-    playerName: {
-      type: String,
-      default: ''
-    },
-
-    // 大赛名称
-    matchName: {
-      type: String,
-      default: ''
+    // 是否显示证书问候语
+    showCertGreet: {
+      type: Boolean,
+      default: false
     }
   },
 
   data() {
     return {
-      show: this.value,
-      date: new Date()
-    }
+      show: this.value
+    };
   },
 
   watch: {
     value(newVal) {
-      this.show = newVal
+      this.show = newVal;
 
       if (newVal) {
         this.$nextTick(() => {
           this.createPoster()
-        })
+        });
       }
     },
 
-    certTitle: {
-      handler: 'updateFieldValue',
-      immediate: true
+    certContent(newVal) {
+      this.certContent = this.format(newVal);
     },
 
-    certBackground: {
-      handler: 'updateFieldValue',
-      immediate: true
-    },
-
-    certStamp: {
-      handler: 'updateFieldValue',
-      immediate: true
-    },
-
-    certGreet: {
-      handler: 'updateFieldValue',
-      immediate: true
-    },
-
-    certContent: {
-      handler: 'updateFieldValue',
-      immediate: true
-    },
-
-    certSignature: {
-      handler: 'updateFieldValue',
-      immediate: true
-    },
-
-    certAwardName: {
-      handler: 'updateFieldValue',
-      immediate: true
-    },
-
-    certNumber: {
-      handler: 'updateFieldValue',
-      immediate: true
-    },
-
-    playerNumber: {
-      handler: 'updateFieldValue',
-      immediate: true
-    },
-
-    playerName: {
-      handler: 'updateFieldValue',
-      immediate: true
-    },
-
-    matchName: {
-      handler: 'updateFieldValue',
-      immediate: true
+    certSignature(newVal) {
+      this.certSignature = this.format(newVal);
     }
   },
 
   methods: {
-    /**
-    * 前面补 0
-    * @param num 被操作数
-    * @param n 固定的总位数
-    */
-    prefixZero(num, n) {
-      return (Array(n).join(0) + num).slice(-n)
-    },
-
-    // 内容格式化
-    contentFormat(str) {
-      // 争流赛事系统的需求，将{编号}等等的变量替换掉
+    // 格式化内容
+    format(str) {
       const list = [
-        () => this.playerNumber ? str.replace(/{编号}/g, String(this.playerNumber).length < 6 ? this.prefixZero(this.playerNumber, 5) : this.playerNumber) : str, // 替换为编号
-        () => str.replace(/{YYYYMMDD}/g, dayjs(this.date).format('YYYYMMDD')), // 替换为日期
-        () => str.replace(/{YYYY年MM月}/g, dayjs(this.date).format('YYYY年MM月')), // 替换为日期
-        () => this.certAwardName ? str.replace(/{奖项}/g, this.certAwardName) : str, // 替换为奖项名称
-        () => this.playerName ? str.replace(/{选手姓名}/g, this.playerName) : str, // 替换为选手姓名
-        () => this.matchName ? str.replace(/{大赛名称}/g, this.matchName) : str, // 替换为大赛名称
-        () => str.replace(/\n/g, '<br>') // 回车替换为 HTML 换行
+        ()=> str.replace(/\n|↵/g, "<br>"), // 回车转为 HTML 换行
+        ()=> str.replace(/\s/g, "&nbsp;") // 空格符转为 &nbsp;
       ]
 
       list.forEach(elm => {
@@ -217,15 +138,6 @@ export default {
       })
 
       return str
-    },
-
-    // 更新字段值
-    updateFieldValue() {
-      this.certTitle = this.contentFormat(this.certTitle) // 证书标题
-      this.certContent = this.contentFormat(this.certContent) // 证书内容
-      this.certGreet = this.contentFormat(this.certGreet) // 证书问候语
-      this.certNumber = this.contentFormat(this.certNumber) // 证书编号
-      this.certSignature = this.contentFormat(this.certSignature) // 证书署名
     },
 
     // 生成海报
@@ -236,36 +148,36 @@ export default {
         // logging: true, // 日志开关，便于查看 html2canvas 的内部执行流程
         useCORS: true, // 【重要】开启跨域配置
         allowTaint: true, // 【重要】开启画布污染
-        backgroundColor: '#0000', // 背景颜色
+        backgroundColor: "#0000", // 背景颜色
         scrollY: 0 // 【重要】设为 0，修复 bug，https://github.com/niklasvh/html2canvas/issues/1878
-      }
+      };
 
       // HTML 转成画布
       html2canvas(this.$refs.componentContainer, opts)
         .then(canvas => {
-          const base64 = canvas.toDataURL('image/jpeg') // 画布转为 base64 图片
+          const base64 = canvas.toDataURL("image/jpeg"); // 画布转为 base64 图片
 
-          this.$emit('success', base64)
-          this.close()
+          this.$emit("success", base64);
+          this.close();
         })
         .catch(() => {
-          this.$emit('fail')
-          this.close()
-        })
+          this.$emit("fail");
+          this.close();
+        });
     },
 
     close() {
-      this.$emit('input', false)
+      this.$emit("input", false);
     }
   }
-}
+};
 </script>
 
 <style>
 .cert-poster {
   position: fixed;
-  top: -9999999px;
-  left: -9999999px;
+  top: -999999px;
+  left: -999999px;
   width: 600px;
   height: 460px;
   padding: 104px 60px 38px;
@@ -273,6 +185,10 @@ export default {
   font-size: 12px;
   font-weight: 400;
   box-sizing: border-box;
+  /* 参考自 Ant Design */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 .cert-poster .cert-poster__background {
@@ -285,18 +201,18 @@ export default {
 }
 
 .cert-poster .cert-poster__title {
+  padding-bottom: 20px;
   font-size: 20px;
   font-weight: 800;
   text-align: center;
 }
 
-.cert-poster .cert-poster__name {
+.cert-poster .cert-poster__greet {
   font-size: 16px;
   color: #b48d2c;
-  padding-top: 19px;
-  padding-bottom: 10px;
   font-weight: 800;
   text-align: center;
+  padding-bottom: 10px;
 }
 
 .cert-poster .cert-poster__content {
@@ -314,7 +230,7 @@ export default {
   position: absolute;
   right: 60px;
   bottom: 38px;
-  width: 192px;
+  width: 220px;
   line-height: 20px;
   text-align: right;
 }

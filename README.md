@@ -15,9 +15,10 @@
 ![image](https://github.com/1014156094/vue-cert-poster/blob/master/public/result.png?raw=true)
 
 
-## 说明
-- 从争流科技后台和 H5 业务中抽离出来的组件，可能不适用您的业务
+## 特性
+- 从争流科技后台和 H5 业务中抽离出来的组件
 - 原生 CSS，支持 Less、Scss 等预编译语言
+- 桌面端和移动端效果一致
 
 ## 使用
 1. 安装
@@ -30,7 +31,6 @@ npm i -S vue-cert-poster
 
 ``` bash
 import CertPoster from 'vue-cert-poster'
-import 'vue-cert-poster/lib/vue-cert-poster.css'
 
 Vue.use(CertPoster)
 ```
@@ -53,38 +53,20 @@ Vue.use(CertPoster)
 
 <script>
 export default {
-  name: 'App',
-  
   data() {
     return {
       posterUrl: '',
-      // 变量：{选手姓名}、{大赛名称}、{奖项}、{编号}、{YYYYMMDD}、{YYYY年MM月}
-      // 如果 cert_style_setting 内 key 的值存在以上变量
-      // enroll_name 会替换 {选手姓名}
-      // match_name 会替换 {大赛名称}
-      // cert_award_name 会替换 {奖项}
-      // number 会替换 {编号}
-      // 当前日期 会替换 {YYYYMMDD}，例：20200409
-      // 当前日期 会替换 {YYYY年MM月}，例2020年04月
-      // 例：我是{选手姓名}，我正在参加选美大赛。会将 “{选手姓名}” 替换为 enroll_name 的值
-      currentCertDetail: {
-        number: 7, // 选手编号
-        match_name: '11', // 大赛名称
-        enroll_name: 'VV', // 选手姓名
-        enroll_mobile: '11111111111', // 选手手机号码
-        cert_award_name: '22', // 获奖名称
-        cert_style_setting: {
-          title: '最佳渣男证书', // 证书标题
-          background_url:
+      certDetail: {
+          title: '最佳员工奖', // 证书标题
+          background:
             'http://cdn.towinos.com/committee/cert/style/2/edit/20200407103146-2142379266903-cert-default-background.png?imageView2/2/w/1920', // 证书背景
-          stamp_url:
+          stamp:
             'http://cdn.towinos.com/committee/cert/style/2/edit/20200407023952-367736050162-c4cd5f047be86d3f1545fcf2defe5b09.png?imageView2/2/w/1920', // 证书盖章
-          greeting: '亲爱的{选手姓名}', // 称呼
+          greet: '亲爱的小七哥同志', // 称呼
           content:
-            'hi，小宝贝{编号}，我是{选手姓名}，我最帅，你最美。吃了没，早点睡，多穿点，喝热水。太晚了，去你家，啥也不干就吃瓜。没电了，在开会，忙了一天我很累。我爱你，别误会，那个女孩是我妹。你干啥，真没有，我们就是喝点儿酒。喝多了，乱说的，我们只是好朋友。别闹了，对不起，反正都是你有理。你很好，我不配，忘了我吧下一位。鉴于你的优秀表现，特发证书以此鼓励。', // 证书内容
-          signature: '中国最渣学会\n深圳分会{YYYY年MM月}', // 证书署名
-          number: 'ZHA-NAN-{YYYYMMDD}' // 证书编号
-        }
+            '在 2020 年 12 月中，工作认真、能力突出、表现优异，被评为“最佳员工”，特发此证，以资鼓励。', // 证书内容
+          signature: '深圳市某科技有限公司↵2020年12月12日', // 证书署名
+          number: 'SHEN-ZHEN-20200415' // 证书编号
       }
     }
   },
@@ -92,19 +74,17 @@ export default {
   methods: {
     onCreate() {
       this.$certPoster({
-        certTitle: this.currentCertDetail.cert_style_setting.title,
-        certBackground: this.currentCertDetail.cert_style_setting.background_url,
-        certStamp: this.currentCertDetail.cert_style_setting.stamp_url,
-        certGreet: this.currentCertDetail.cert_style_setting.greeting,
-        certContent: this.currentCertDetail.cert_style_setting.content,
-        certSignature: this.currentCertDetail.cert_style_setting.signature,
-        certAwardName: this.currentCertDetail.cert_award_name,
-        certNumber: this.currentCertDetail.cert_style_setting.number,
-        playerNumber: this.currentCertDetail.number,
-        playerName: this.currentCertDetail.enroll_name,
-        matchName: this.currentCertDetail.match_name
+        certTitle: this.certDetail.title,
+        certBackground: this.certDetail.background,
+        certStamp: this.certDetail.stamp,
+        certContent: this.certDetail.content,
+        certSignature: this.certDetail.signature,
+        certNumber: this.certDetail.number,
       }).then(posterUrl => {
-        this.posterUrl = posterUrl
+        // 生成成功
+        this.posterUrl = posterUrl // 海报 base64 地址
+      }).catch(()=>{
+        // 生成失败
       })
     }
   }
@@ -115,13 +95,14 @@ export default {
 ## Prop
 | 参数 | 说明 | 类型 | 默认值 |
 | - | - | - | - |
-| certTitle | 证书标题 | `String` | '' |
-| certBackground | 证书背景 | `String` | '' |
-| certStamp | 证书盖章 | `String` | '' |
-| certGreet | 证书问候语 | `String` | '' |
-| certContent | 证书内容 | `String` | '' |
-| certSignature | 证书署名 | `String` | '' |
-| certNumber | 证书编号 | `String` | '' |
+| `certTitle` | 证书标题 | `String` | `''` |
+| `certBackground` | 证书背景 | `String` | `''` |
+| `certStamp` | 证书盖章 | `String` | `''` |
+| `certGreet` | 证书问候语 | `String` | `''` |
+| `certContent` | 证书内容，回车符（`\n` 或 `↵`）自动转为 `<br>`，空格符自动转为 `&nbsp;` | `HTML` | `''` |
+| `certSignature` | 证书署名，回车符（`\n` 或 `↵`）自动转为 `<br>`，空格符自动转为 `&nbsp;` | `HTML` | `''` |
+| `certNumber` | 证书编号 | `String` | `''` |
+| `showCertGreet` | 是否显示证书问候语 | `Boolean` | `false` |
 
 ## 许可证
 `MIT`
