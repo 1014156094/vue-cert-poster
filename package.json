@@ -1,6 +1,6 @@
 {
   "name": "vue-cert-poster",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Vue 生成证书海报组件",
   "license": "MIT",
   "author": "liripeng <1014156094@qq.com>",
@@ -23,7 +23,6 @@
     "url": "https://github.com/1014156094/vue-cert-poster.git"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "core-js": "^3.6.4",
     "html2canvas": "^1.0.0-rc.5",
     "vue": "^2.6.11"
