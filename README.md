@@ -172,7 +172,7 @@ export default {
 ## Event
 | 事件 | 说明 | 回调 |
 | - | - | - |
-| success | 生成成功后触发 | - |
+| success | 生成成功后触发 | imageUrl |
 | fail | 生成失败后触发 | - |
 
 ## 许可证
