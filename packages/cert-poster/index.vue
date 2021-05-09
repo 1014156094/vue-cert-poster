@@ -3,9 +3,12 @@
 
 <template>
   <div
-    v-if="show"
     ref="componentContainer"
     class="cert-poster"
+    :style="{
+      width,
+      height
+    }"
   >
     <img
       class="cert-poster__background"
@@ -48,6 +51,18 @@ export default {
     value: {
       type: Boolean,
       default: false
+    },
+
+    // 证书宽
+    width: {
+      type: String,
+      default: '600px'
+    },
+
+    // 证书高
+    height: {
+      type: String,
+      default: '460px'
     },
 
     // 证书标题
@@ -99,19 +114,11 @@ export default {
     }
   },
 
-  data() {
-    return {
-      show: this.value
-    };
-  },
-
   watch: {
     value(newVal) {
-      this.show = newVal;
-
       if (newVal) {
         this.$nextTick(() => {
-          this.createPoster()
+          this.create()
         });
       }
     },
@@ -141,7 +148,7 @@ export default {
     },
 
     // 生成海报
-    createPoster() {
+    create() {
       // 官方文档 http://html2canvas.hertzen.com/configuration/
       const opts = {
         scale: 3, // 【重要】画布像素大小倍数。默认为浏览器设备像素比。
@@ -158,17 +165,11 @@ export default {
           const base64 = canvas.toDataURL("image/jpeg"); // 画布转为 base64 图片
 
           this.$emit("success", base64);
-          this.close();
         })
         .catch(() => {
           this.$emit("fail");
-          this.close();
         });
     },
-
-    close() {
-      this.$emit("input", false);
-    }
   }
 };
 </script>
@@ -178,8 +179,6 @@ export default {
   position: fixed;
   top: -999999px;
   left: -999999px;
-  width: 600px;
-  height: 460px;
   padding: 104px 60px 38px;
   color: #444244;
   font-size: 12px;

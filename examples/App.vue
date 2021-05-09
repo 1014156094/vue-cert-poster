@@ -6,8 +6,20 @@
 
     <img
       :src="posterUrl"
-      width="100%"
     >
+
+    <cert-poster
+      ref="certPoster" 
+      width="600px"
+      height="460px"
+      :cert-title="certDetail.title"
+      :cert-background="certDetail.background"
+      :cert-stamp="certDetail.stamp"
+      :cert-content="certDetail.content"
+      :cert-signature="certDetail.signature"
+      :cert-number="certDetail.number"
+      @success="onSuccess"
+    />
   </div>
 </template>
 
@@ -34,14 +46,21 @@ export default {
   },
 
   methods: {
+    onSuccess(posterUrl){
+      this.posterUrl = posterUrl // 海报 base64 地址
+    },
+
     onCreate() {
+      // this.$refs.certPoster.create()
       this.$certPoster({
         certTitle: this.certDetail.title,
         certBackground: this.certDetail.background,
         certStamp: this.certDetail.stamp,
         certContent: this.certDetail.content,
         certSignature: this.certDetail.signature,
-        certNumber: this.certDetail.number
+        certNumber: this.certDetail.number,
+        width: '600px',
+        height: '460px'
       }).then(posterUrl => {
         // 生成成功
         this.posterUrl = posterUrl // 海报 base64 地址
@@ -52,6 +71,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
