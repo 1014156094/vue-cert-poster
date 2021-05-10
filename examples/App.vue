@@ -19,7 +19,11 @@
       :cert-signature="certDetail.signature"
       :cert-number="certDetail.number"
       @success="onSuccess"
-    />
+    >
+      <template #main-content>
+        123
+      </template>
+    </cert-poster>
   </div>
 </template>
 
@@ -51,22 +55,22 @@ export default {
     },
 
     onCreate() {
-      // this.$refs.certPoster.create()
-      this.$certPoster({
-        certTitle: this.certDetail.title,
-        certBackground: this.certDetail.background,
-        certStamp: this.certDetail.stamp,
-        certContent: this.certDetail.content,
-        certSignature: this.certDetail.signature,
-        certNumber: this.certDetail.number,
-        width: '600px',
-        height: '460px'
-      }).then(posterUrl => {
-        // 生成成功
-        this.posterUrl = posterUrl // 海报 base64 地址
-      }).catch(()=>{
-        // 生成失败
-      })
+      this.$refs.certPoster.create()
+      // this.$certPoster({
+      //   certTitle: this.certDetail.title,
+      //   certBackground: this.certDetail.background,
+      //   certStamp: this.certDetail.stamp,
+      //   certContent: this.certDetail.content,
+      //   certSignature: this.certDetail.signature,
+      //   certNumber: this.certDetail.number,
+      //   width: '600px',
+      //   height: '460px'
+      // }).then(posterUrl => {
+      //   // 生成成功
+      //   this.posterUrl = posterUrl // 海报 base64 地址
+      // }).catch(()=>{
+      //   // 生成失败
+      // })
     }
   }
 }

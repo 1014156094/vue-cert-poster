@@ -1,6 +1,6 @@
 {
   "name": "vue-cert-poster",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Vue 生成证书海报组件",
   "license": "MIT",
   "author": "liripeng <1014156094@qq.com>",

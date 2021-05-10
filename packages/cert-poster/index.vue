@@ -14,30 +14,33 @@
       class="cert-poster__background"
       :src="certBackground"
     >
-    <div class="cert-poster__title">
-      {{ certTitle }}
-    </div>
-    <div
-      v-if="showCertGreet"
-      class="cert-poster__greet"
-    >
-      {{ certGreet }}
-    </div>
-    <div
-      class="cert-poster__content"
-      v-html="certContent"
-    />
-    <div class="cert-poster__no">
-      证书编号：{{ certNumber }}
-    </div>
-    <div
-      class="cert-poster__signature"
-      v-html="certSignature"
-    />
-    <img
-      class="cert-poster__stamp"
-      :src="certStamp"
-    >
+
+    <slot name="main-content">
+      <div class="cert-poster__title">
+        {{ certTitle }}
+      </div>
+      <div
+        v-if="showCertGreet"
+        class="cert-poster__greet"
+      >
+        {{ certGreet }}
+      </div>
+      <div
+        class="cert-poster__content"
+        v-html="certContent"
+      />
+      <div class="cert-poster__no">
+        证书编号：{{ certNumber }}
+      </div>
+      <div
+        class="cert-poster__signature"
+        v-html="certSignature"
+      />
+      <img
+        class="cert-poster__stamp"
+        :src="certStamp"
+      >
+    </slot>
   </div>
 </template>
 
