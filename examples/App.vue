@@ -19,11 +19,7 @@
       :cert-signature="certDetail.signature"
       :cert-number="certDetail.number"
       @success="onSuccess"
-    >
-      <template #main-content>
-        123
-      </template>
-    </cert-poster>
+    />
   </div>
 </template>
 
